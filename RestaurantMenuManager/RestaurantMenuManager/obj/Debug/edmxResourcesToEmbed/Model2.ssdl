@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RestaurantMenuManagerModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="RestaurantMenuManagerModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="RestaurantMenuManagerModel.Store.__MigrationHistory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Drink" EntityType="RestaurantMenuManagerModel.Store.Drink" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Food" EntityType="RestaurantMenuManagerModel.Store.Food" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MenuModel" EntityType="RestaurantMenuManagerModel.Store.MenuModel" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderModel" EntityType="RestaurantMenuManagerModel.Store.OrderModel" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReclamationModel" EntityType="RestaurantMenuManagerModel.Store.ReclamationModel" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_dbo_Drink_dbo_MenuModel_MenuModel_ID" Association="RestaurantMenuManagerModel.Store.FK_dbo_Drink_dbo_MenuModel_MenuModel_ID">
+      <End Role="MenuModel" EntitySet="MenuModel" />
+      <End Role="Drink" EntitySet="Drink" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Food_dbo_MenuModel_MenuModel_ID" Association="RestaurantMenuManagerModel.Store.FK_dbo_Food_dbo_MenuModel_MenuModel_ID">
+      <End Role="MenuModel" EntitySet="MenuModel" />
+      <End Role="Food" EntitySet="Food" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID" Association="RestaurantMenuManagerModel.Store.FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID">
+      <End Role="OrderModel" EntitySet="OrderModel" />
+      <End Role="MenuModel" EntitySet="MenuModel" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ContextKey" Type="nvarchar" Nullable="false" MaxLength="300" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="32" />
+  </EntityType>
+  <EntityType Name="Drink">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="DrinkName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="real" Nullable="false" />
+    <Property Name="MenuModel_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Food">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FoodName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="ReqDurationInMinutes" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="real" Nullable="false" />
+    <Property Name="Cathegory" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MenuModel_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="MenuModel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MenuName" Type="nvarchar(max)" />
+    <Property Name="DrinkName" Type="nvarchar(max)" />
+    <Property Name="FoodName" Type="nvarchar(max)" />
+    <Property Name="OrderModel_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderModel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="WhenOrdered" Type="datetime" Nullable="false" />
+    <Property Name="ClientName" Type="nvarchar(max)" />
+    <Property Name="MenuName" Type="nvarchar(max)" />
+    <Property Name="Bill" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReclamationModel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ClientName" Type="nvarchar(max)" />
+    <Property Name="WhenOrdered" Type="datetime" Nullable="false" />
+    <Property Name="When" Type="datetime" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Drink_dbo_MenuModel_MenuModel_ID">
+    <End Role="MenuModel" Type="RestaurantMenuManagerModel.Store.MenuModel" Multiplicity="0..1" />
+    <End Role="Drink" Type="RestaurantMenuManagerModel.Store.Drink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MenuModel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Drink">
+        <PropertyRef Name="MenuModel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Food_dbo_MenuModel_MenuModel_ID">
+    <End Role="MenuModel" Type="RestaurantMenuManagerModel.Store.MenuModel" Multiplicity="0..1" />
+    <End Role="Food" Type="RestaurantMenuManagerModel.Store.Food" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MenuModel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Food">
+        <PropertyRef Name="MenuModel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID">
+    <End Role="OrderModel" Type="RestaurantMenuManagerModel.Store.OrderModel" Multiplicity="0..1" />
+    <End Role="MenuModel" Type="RestaurantMenuManagerModel.Store.MenuModel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderModel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MenuModel">
+        <PropertyRef Name="OrderModel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

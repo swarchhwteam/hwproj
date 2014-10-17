@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RestaurantMenuManagerModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="RestaurantMenuManagerEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="RestaurantMenuManagerModel.C__MigrationHistory" />
+    <EntitySet Name="Drinks" EntityType="RestaurantMenuManagerModel.Drink" />
+    <EntitySet Name="Foods" EntityType="RestaurantMenuManagerModel.Food" />
+    <EntitySet Name="MenuModels" EntityType="RestaurantMenuManagerModel.MenuModel" />
+    <EntitySet Name="OrderModels" EntityType="RestaurantMenuManagerModel.OrderModel" />
+    <EntitySet Name="ReclamationModels" EntityType="RestaurantMenuManagerModel.ReclamationModel" />
+    <AssociationSet Name="FK_dbo_Drink_dbo_MenuModel_MenuModel_ID" Association="RestaurantMenuManagerModel.FK_dbo_Drink_dbo_MenuModel_MenuModel_ID">
+      <End Role="MenuModel" EntitySet="MenuModels" />
+      <End Role="Drink" EntitySet="Drinks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Food_dbo_MenuModel_MenuModel_ID" Association="RestaurantMenuManagerModel.FK_dbo_Food_dbo_MenuModel_MenuModel_ID">
+      <End Role="MenuModel" EntitySet="MenuModels" />
+      <End Role="Food" EntitySet="Foods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID" Association="RestaurantMenuManagerModel.FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID">
+      <End Role="OrderModel" EntitySet="OrderModels" />
+      <End Role="MenuModel" EntitySet="MenuModels" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Drink">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DrinkName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Single" Nullable="false" />
+    <Property Name="MenuModel_ID" Type="Int32" />
+    <NavigationProperty Name="MenuModel" Relationship="RestaurantMenuManagerModel.FK_dbo_Drink_dbo_MenuModel_MenuModel_ID" FromRole="Drink" ToRole="MenuModel" />
+  </EntityType>
+  <EntityType Name="Food">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="FoodName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="ReqDurationInMinutes" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Single" Nullable="false" />
+    <Property Name="Cathegory" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="MenuModel_ID" Type="Int32" />
+    <NavigationProperty Name="MenuModel" Relationship="RestaurantMenuManagerModel.FK_dbo_Food_dbo_MenuModel_MenuModel_ID" FromRole="Food" ToRole="MenuModel" />
+  </EntityType>
+  <EntityType Name="MenuModel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="DrinkName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="FoodName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="OrderModel_ID" Type="Int32" />
+    <NavigationProperty Name="Drinks" Relationship="RestaurantMenuManagerModel.FK_dbo_Drink_dbo_MenuModel_MenuModel_ID" FromRole="MenuModel" ToRole="Drink" />
+    <NavigationProperty Name="Foods" Relationship="RestaurantMenuManagerModel.FK_dbo_Food_dbo_MenuModel_MenuModel_ID" FromRole="MenuModel" ToRole="Food" />
+    <NavigationProperty Name="OrderModel" Relationship="RestaurantMenuManagerModel.FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID" FromRole="MenuModel" ToRole="OrderModel" />
+  </EntityType>
+  <EntityType Name="OrderModel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="WhenOrdered" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ClientName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="MenuName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Bill" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MenuModels" Relationship="RestaurantMenuManagerModel.FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID" FromRole="OrderModel" ToRole="MenuModel" />
+  </EntityType>
+  <EntityType Name="ReclamationModel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="WhenOrdered" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="When" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Subject" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Drink_dbo_MenuModel_MenuModel_ID">
+    <End Role="MenuModel" Type="RestaurantMenuManagerModel.MenuModel" Multiplicity="0..1" />
+    <End Role="Drink" Type="RestaurantMenuManagerModel.Drink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MenuModel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Drink">
+        <PropertyRef Name="MenuModel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Food_dbo_MenuModel_MenuModel_ID">
+    <End Role="MenuModel" Type="RestaurantMenuManagerModel.MenuModel" Multiplicity="0..1" />
+    <End Role="Food" Type="RestaurantMenuManagerModel.Food" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MenuModel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Food">
+        <PropertyRef Name="MenuModel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_MenuModel_dbo_OrderModel_OrderModel_ID">
+    <End Role="OrderModel" Type="RestaurantMenuManagerModel.OrderModel" Multiplicity="0..1" />
+    <End Role="MenuModel" Type="RestaurantMenuManagerModel.MenuModel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderModel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MenuModel">
+        <PropertyRef Name="OrderModel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

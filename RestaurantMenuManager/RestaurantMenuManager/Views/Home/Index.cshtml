@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+  @if (!Request.IsAuthenticated )   
+             {       <p class="lead"> You are a quest. Please Login or Register </p>
+                   
+
+             }
+@if (Request.IsAuthenticated && User.IsInRole("Client"))
+             {       <p class="lead"> You are a Client. </p>
+                   
+
+             }
+
+ @if (Request.IsAuthenticated && User.IsInRole("Chef"))
+             {       <p class="lead"> You are a Chef.  </p>
+                   
+
+             }
+
+ @if (Request.IsAuthenticated && User.IsInRole("Waiter/Waitress"))   
+             {       <p class="lead"> You are a Waiter/Waitress. </p>
+                   
+
+             }
+  @if (Request.IsAuthenticated && User.IsInRole("Admin"))  
+             {       <p class="lead"> You are the Admin. </p>
+                   
+
+             }
